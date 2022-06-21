@@ -1,0 +1,6 @@
+/.gradle/
+/.idea/
+# ignore everything in the `build` folder
+
+/build/*
+!/build/distributions

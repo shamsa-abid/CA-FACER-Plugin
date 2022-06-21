@@ -1,0 +1,56 @@
+<idea-plugin>
+    <id>FACER-AS</id>
+    <name>FACER</name>
+    <vendor>SERL, LUMS</vendor>
+
+    <!--<description><![CDATA[-->
+    <!--Enter short description for your plugin here.<br>-->
+    <!--<em>most HTML tags may be used</em>-->
+    <!--]]></description>-->
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+         on how to target different products -->
+    <!-- uncomment to enable plugin in all products
+    <depends>com.intellij.modules.lang</depends>
+    -->
+
+    <depends>com.intellij.modules.lang</depends>
+    <depends>com.intellij.modules.java</depends>
+
+    <actions>
+        <group id="FACER.TopMenu"
+               text="_FACER"
+               description="FACER Plugin">
+            <add-to-group group-id="MainMenu" anchor="last"/>
+            <action id="QuerySearchAction"
+                    class="QuerySearchAction"
+                    text="Enable FACER"
+                    description="QuerySearchAction">
+                <keyboard-shortcut keymap="$default" first-keystroke="ctrl 1"/>
+            </action>
+            <action id="ConfigurationAction"
+                    class="ConfigurationAction"
+                    text="Configure FACER"
+                    description="ConfigurationAction">
+                <keyboard-shortcut keymap="$default" first-keystroke="ctrl 2"/>
+            </action>
+            <action id="GetContextAction"
+                    class="GetContextAction"
+                    text="Parse Context"
+                    description="GetContextAction">
+            </action>
+        </group>
+    </actions>
+
+    <extensions  defaultExtensionNs="com.intellij">
+        <toolWindow id="FACER" anchor="left" factoryClass="FACERTWFactory" doNotActivateOnStart="true"/>
+
+    </extensions>
+
+    <application-components>
+        <component>
+            <implementation-class>FACERConfigurationStateComponent</implementation-class>
+        </component>
+    </application-components>
+
+</idea-plugin>

@@ -1,0 +1,88 @@
+plugins {
+    id 'java'
+    id 'org.jetbrains.intellij' version '0.7.2'
+}
+
+group 'FACER-AS'
+// convention:
+// version '#.#0' ---> db url configurable
+// version '#.#3' ---> db url point 3 configured
+// version '#.#5' ---> db url point 5 configured
+version '1.05'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.google.code.gson:gson:2.8.6'
+
+    implementation 'org.apache.httpcomponents:httpclient:4.5.10'
+
+//    implementation 'org.apache.lucene:lucene-core:5.3.0'
+//    implementation 'org.apache.lucene:lucene-analyzers-common:5.3.0'
+//    implementation 'org.apache.lucene:lucene-queryparser:5.3.0'
+//
+//    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+//
+//    implementation 'mysql:mysql-connector-java:8.0.25'
+//
+//    implementation 'org.eclipse.core:org.eclipse.core.runtime:3.7.0'
+//    implementation 'org.eclipse.core:org.eclipse.core.commands:3.6.0'
+//    implementation 'org.eclipse.core:org.eclipse.core.contenttype:3.4.100'
+//    implementation 'org.eclipse.core:org.eclipse.core.expressions:3.4.300'
+//    implementation 'org.eclipse.core:org.eclipse.core.jobs:3.5.100'
+//    implementation 'org.eclipse.core:org.eclipse.core.runtime:3.7.0'
+//    implementation 'org.eclipse.equinox:org.eclipse.equinox.app:1.3.100'
+//    implementation 'org.eclipse.equinox:org.eclipse.equinox.common:3.6.0'
+//    implementation 'org.eclipse.equinox:org.eclipse.equinox.registry:3.5.101'
+//    implementation 'org.eclipse.equinox:org.eclipse.equinox.preferences:3.4.1'
+//        implementation 'org.eclipse:org.eclipse.osgi:3.8.0.v20120529-1548'
+  //  implementation 'org.eclipse.jdt:org.eclipse.jdt.core:3.29.0'
+
+
+}
+
+intellij {
+    version '2020.1.4'
+
+    //version '2021.3'
+    //type 'IC' // Target IDE Platform
+    plugins = ['com.intellij.java']
+
+//    alternativeIdePath' C:/Program Files/Android/Android Studio/'
+}
+
+
+
+//runIde{
+  //  ideDirectory 'C:/Program Files/Android/Android Studio/'
+//    ideDirectory '/Applications/Android Studio.app/Contents/'
+
+
+//}
+
+
+
+
+//intellij {
+//        // Define IntelliJ Platform against which to build the plugin project.
+//        version '191.8026.42'  // Same IntelliJ IDEA version (2019.1.4) as target 3.5 Android Studio
+//        type 'IC'              // Use IntelliJ IDEA CE because it's the basis of the IntelliJ Platform
+//        // Require the Android plugin, Gradle will match the plugin version to intellij.version
+//        //plugins 'android'
+//}
+//
+//runIde {
+//        // Absolute path to installed target 3.5 Android Studio to use as IDE Development Instance
+//        // The "Contents" directory is macOS specific.
+//        ideDirectory '/Applications/Android Studio.app/Contents' }
+patchPluginXml {
+    changeNotes """
+      Add change notes here.<br>
+      <em>most HTML tags may be used</em>"""
+}

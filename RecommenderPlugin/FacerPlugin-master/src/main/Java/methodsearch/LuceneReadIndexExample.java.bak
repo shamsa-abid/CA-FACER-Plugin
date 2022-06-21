@@ -1,0 +1,109 @@
+package methodsearch;
+
+import java.io.IOException;
+import java.nio.file.Paths;
+
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
+import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.util.Version;
+
+import support.Constants;
+
+public class LuceneReadIndexExample 
+{
+	private static final String INDEX_DIR = Constants.LUCENE_INDEX_DIR;
+
+	public static void main(String[] args) throws Exception 
+	{
+		IndexSearcher searcher = createSearcher();
+		
+		//Search by ID
+		TopDocs foundDocs = searchByFunctionId(2985, searcher);
+		
+		System.out.println("Total Results :: " + foundDocs.totalHits);
+		
+		for (ScoreDoc sd : foundDocs.scoreDocs) 
+		{
+			Document d = searcher.doc(sd.doc);
+			System.out.println(String.format(d.get("functionname")));
+			System.out.println("meow");
+			System.out.println(String.format(d.get("data")));
+			System.out.println("meow");
+			System.out.println(String.format(d.get("comments")));
+			System.out.println("=================");
+		}
+		
+		//Search by comments
+		//TopDocs foundDocs2 = searchByComments("create document", searcher);
+		
+		//System.out.println("Total Results :: " + foundDocs2.totalHits);
+		/*
+		for (ScoreDoc sd : foundDocs2.scoreDocs) 
+		{
+			Document d = searcher.doc(sd.doc);
+			System.out.println(String.format(d.get("methodBody")));
+			System.out.println(String.format(d.get("id")));
+		}*/
+	}
+	
+	public static TopDocs searchByComments(String comments, IndexSearcher searcher) throws Exception
+	{
+		QueryParser qp = new QueryParser("comments", new StandardAnalyzer());
+		Query featureQuery = qp.parse(comments);
+		TopDocs hits = searcher.search(featureQuery, 10);
+		return hits;
+	}
+	
+	public static TopDocs searchByFunctionData(String query, IndexSearcher searcher) throws Exception
+	{
+		QueryParser qp = new QueryParser("data", new StandardAnalyzer());
+		Query featureQuery = qp.parse(query);
+		TopDocs hits = searcher.search(featureQuery, 10);
+		return hits;
+	}
+	public static TopDocs searchByCommentsKeywords(String query, IndexSearcher searcher) throws Exception
+	{
+		
+		MultiFieldQueryParser qp = new MultiFieldQueryParser(new String[]{"functionname","comments", "data"}, new StandardAnalyzer());
+		qp.setDefaultOperator(QueryParser.OR_OPERATOR);		
+		//QueryParser qp = new QueryParser("data", new StandardAnalyzer());
+		Query featureQuery = qp.parse(query);
+		TopDocs hits = searcher.search(featureQuery, 20);
+		
+		return hits;
+	}
+
+
+	private static TopDocs searchById(Integer id, IndexSearcher searcher) throws Exception
+	{
+		QueryParser qp = new QueryParser("id", new StandardAnalyzer());
+		Query idQuery = qp.parse(id.toString());
+		TopDocs hits = searcher.search(idQuery, 10);
+		return hits;
+	}
+	
+	private static TopDocs searchByFunctionId(Integer id, IndexSearcher searcher) throws Exception
+	{
+		QueryParser qp = new QueryParser("functionid", new StandardAnalyzer());
+		Query idQuery = qp.parse(id.toString());
+		TopDocs hits = searcher.search(idQuery, 10);
+		return hits;
+	}
+
+	public static IndexSearcher createSearcher() throws IOException {
+		Directory dir = FSDirectory.open(Paths.get(INDEX_DIR));
+		IndexReader reader = DirectoryReader.open(dir);
+		IndexSearcher searcher = new IndexSearcher(reader);
+		return searcher;
+	}
+}

@@ -1,0 +1,62 @@
+import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
+
+public class Method {
+
+    public final int TYPE_QUERY = 0;
+    public final int TYPE_RELATED = 1;
+    public final int TYPE_CALLED = 2;
+
+    @SerializedName("ID")
+    public int id;
+
+    @SerializedName("Name")
+    public String name;
+
+    @SerializedName("Body")
+    public String body;
+
+    @SerializedName("Algo")
+    public String algo;
+
+    @SerializedName("ProjectID")
+    public int projectID;
+
+    @SerializedName("Support")
+    public int support;
+
+    @SerializedName("APICalls")
+    public ArrayList<String> apiCallsList;
+
+    private int type;
+
+    public void setType(String typeString) {
+        switch (typeString) {
+            case "query":
+                type = TYPE_QUERY;
+                break;
+            case "related":
+                type = TYPE_RELATED;
+                break;
+            case "called":
+                type = TYPE_CALLED;
+                break;
+            default:
+                type = TYPE_QUERY;
+                break;
+        }
+    }
+
+    public boolean isQueryMethod(){
+        return type == TYPE_QUERY;
+    }
+
+    public boolean isRelatedMethod(){
+        return type == TYPE_RELATED;
+    }
+
+    public boolean isCalledMethod(){
+        return type == TYPE_CALLED;
+    }
+}
